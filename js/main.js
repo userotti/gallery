@@ -77,28 +77,29 @@ function init() {
     document.body.appendChild( renderer.domElement );
 
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-    camera.position.x = -500;
+    camera.position.x = -300;
 
 
     controls = new THREE.FirstPersonControls( camera );
-    controls.verticalMin = 1.0;
-    controls.verticalMax = 2.0;
-    controls.noFly = true;
+    controls.verticalMin = 0;
+    controls.verticalMax = 0;
+    controls.noFly = false;
     controls.movementSpeed = 400;
     controls.lookSpeed = 0.2;
-    controls.lookVertical = false;
+    controls.lookVertical = true;
 
     scene = new THREE.Scene();
 
     //3072 x 2304 img/wall.jpg
     var wall_texture = THREE.ImageUtils.loadTexture( 'img/wall.jpg' );
+    var wood_texture = THREE.ImageUtils.loadTexture( 'img/wood.jpg' );
 
 
     var ru = createNewPainting('img/ru.jpg', 40, 40, 3);
     ru.position = new THREE.Vector3(0, 50, 0);
     var jen = createNewPainting('img/jen.jpg', 40, 40, 3);
     jen.position = new THREE.Vector3(200, 50, 0);
-    wall = createNewWall(wall_texture, 610, 200);
+    wall = createNewWall(wall_texture, 610, 400);
     wall.rotation.set(0,-Math.PI/2,0, 'XYZ');
     wall.add(ru);
     wall.add(jen);
@@ -109,7 +110,7 @@ function init() {
     smaati1.position = new THREE.Vector3(0, 50, 0);
     var smaati2 = createNewPainting('img/smaati2.jpg', 1 * 50, (196/236) * 50, 7);
     smaati2.position = new THREE.Vector3(-100, 50, 0);
-    var wall2 = createNewWall(wall_texture, 610, 200);
+    var wall2 = createNewWall(wall_texture, 610, 400);
     wall2.rotation.set(0,0,0, 'XYZ');
     wall2.position = new THREE.Vector3(-300, 0, -300);
     wall2.add(smaati1);
@@ -117,6 +118,29 @@ function init() {
 
     scene.add(wall2);
 
+    var b1 = createNewPainting('img/beach1.jpg', 100, 100, 7);
+    b1.position = new THREE.Vector3(0, 10, 0);
+    var b2 = createNewPainting('img/beach2.jpg', 100, 100, 7);
+    b2.position = new THREE.Vector3(-160, 10, 0);
+    var wall3 = createNewWall(wall_texture, 610, 400);
+    wall3.rotation.set(0,Math.PI,0, 'XYZ');
+    wall3.position = new THREE.Vector3(-300, 0, 300);
+    wall3.add(b1);
+    wall3.add(b2);
+
+    scene.add(wall3);
+
+    var floor = createNewWall(wood_texture, 610, 610);
+    floor.rotation.set(Math.PI/2,0,0, 'XYZ');
+    floor.position = new THREE.Vector3(-300, -200, 0);
+
+    scene.add(floor);
+
+    var ceiling = createNewWall(wood_texture, 610, 610);
+    ceiling.rotation.set(Math.PI/2,0,Math.PI/2, 'XYZ');
+    ceiling.position = new THREE.Vector3(-300, 200, 0);
+
+    scene.add(ceiling);
 
 
     window.addEventListener( 'resize', onWindowResize, false );
